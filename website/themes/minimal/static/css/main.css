@@ -6,12 +6,15 @@ body {
   letter-spacing: 1px;
   color: #333; 
 }
-.container, .container-fluid {
-  padding-left: 0;
-}
+/*@media (min-width: 580px) {*/
+	.container, .container-fluid {
+	  padding-left: 0;
+	}
+/*}*/
+
 
 .main {
-  min-height: 61vh; 
+  min-height: 61vh;
 }
 
 /** Headers **/
@@ -98,8 +101,8 @@ code {
   color: #537FBC;
   color: #444;
   max-width: 700px;
-  margin-bottom: 10px;
-    margin-top: 50px;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
 .sidebar {
   font-size:1.3em !important;
@@ -186,7 +189,8 @@ a.navbar-header:hover {
 }
 
 @media (max-width: 580px) {
-  .navbar-default {
+  .navbar-default,
+  .container, .container-fluid {
     margin-left: 15px;
     margin-right: 25px; 
   } 
