@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Travisci on Minimalist Programmer - Kevin Guay</title>
+    <link>https://www.minimalistprogrammer.io/tags/travisci/</link>
+    <description>Recent content in Travisci on Minimalist Programmer - Kevin Guay</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Aug 2018 00:00:00 +0000</lastBuildDate>
+    
+        <atom:link href="https://www.minimalistprogrammer.io/tags/travisci/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Easy static website editing using TravisCI and Forestry.io</title>
+      <link>https://www.minimalistprogrammer.io/posts/continuous-integration-and-content-management/</link>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.minimalistprogrammer.io/posts/continuous-integration-and-content-management/</guid>
+      <description>Overview One drawback to static websites is ease of management. After working with static website compilers for the past few years, I have finally settled on a process that makes management a breeze.
+GitHub file structure I have always used GitHub when developing websites, but mainly for the version control and collaboration features. Now it is the basis of my workflow:
+I created a GitHub repository to store my pre-compiled website files.</description>
+    </item>
+    
+  </channel>
+</rss>

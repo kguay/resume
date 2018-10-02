@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Minimalist Programmer - Kevin Guay</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Kevin Guay, Kevin, Guay, Kevin C Guay, minimalist, minimalist programmer, programmer, minimalistprogrammer, blog, minimalistblog, programmerblog, software development, software engineering, programming, it, information technology, maine, brunswick, boothbay, computing, resume, bio, personal, contact, Bigelow, Bigelow Laboratory for Ocean Science"/>
+    <meta name="description" content="The Minimalist Programmer is a blog covering dev-ops, software engineering, programming, IT, and more by Kevin Guay"/>
+    <meta name="author" content="Kevin Guay"/>
+    
+    <link rel="stylesheet" href="/css/bootstrap.css" media="screen">
+    
+    <link rel="stylesheet" href="/css/shoelace.css" type="text/css" media="screen"/>
+    
+    
+    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,600,700"/>
+    
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109988049-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-109988049-1');
+    </script>
+    
+  </head>
+  <body id="index">
+    <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="hidden-xs">
+      <div class="menu pull-right">
+        <a href="/about/">about</a>
+        <a href="/about/resume/">resume</a>
+        
+      </div>
+      <a href="/">
+        <div class="title">
+          <span style="font-weight:600;padding-right:3px;">minimalist</span>programmer
+        </div>
+      </a>
+    </div>
+    <div class="visible-xs">
+      <center style="margin-top:10px;">
+        <div class="menu pull-right">
+          <a href="/about/" style="margin-right:15px;margin-left:15px;">about</a>
+          <a href="/about/resume/" style="margin-right:15px;margin-left:15px;">resume</a>
+          
+        </div>
+        <a href="/" class="pull-left">
+          <div class="title"><span style="font-weight:600;padding-right:3px;">minimalist</span>programmer 
+          </div>
+        </a>
+      </center>
+    </div>
+    <hr class="top"/>
+  </div>
+  <div class="container-fluid">
+    
+  </div>
+</nav>
+    <div class="main">
+      <div id="main-container" class="container">
+        
+      
+       
+<div class="container">
+      
+  <h1 class="news-title">Easy static website editing using TravisCI and Forestry.io</h1>
+  <div class="date">Published on <span class="date-format">August 17, 2018</span> by Kevin Guay</div>
+      
+  <ul id="tags" class="hor-list">
+    
+    <li class="bubble green"><a href="/tags/html">HTML</a></li>
+    
+    <li class="bubble green"><a href="/tags/travisci">TravisCI</a></li>
+    
+  </ul>
+
+      
+  
+
+<h2 id="overview">Overview</h2>
+
+<p>One drawback to static websites is ease of management. After working with static website compilers for the past few years, I have finally settled on a process that makes management a breeze.</p>
+
+<h2 id="github-file-structure">GitHub file structure</h2>
+
+<p>I have always used GitHub when developing websites, but mainly for the version control and collaboration features. Now it is the basis of my workflow:</p>
+
+<p>I created a GitHub repository to store my pre-compiled website files. The repository has two folders in the root directory: website and binaries. &ldquo;binaries&rdquo; contains the hugo binary that is used to compile the website. &ldquo;website&rdquo; contains all of the pre-compiled website files (the hugo project).</p>
+
+<h3 id="github-file-structure-1">GitHub file structure</h3>
+
+<ul>
+<li>binaries
+
+<ul>
+<li>hugo</li>
+</ul></li>
+<li>website
+
+<ul>
+<li>{website files}</li>
+</ul></li>
+</ul>
+
+<h2 id="travis-ci">Travis CI</h2>
+
+<p><a href="https://travis-ci.org/">TravisCI</a> is a continuous integration (CI) SaaS that integrates directly with GitHub. The setup is pretty straight forward once you figure out which keys map where. The instructions below should help to clarify.</p>
+
+<h3 id="configuration-file">Configuration file</h3>
+
+<p>TravisCI requires a <code>.travis.yml</code> file in the root directory of the project. <code>.travis.yml</code> contains a simple set of instructions on how to compile and where to deploy your website/app.</p>
+
+<pre><code>  # Clean and don't fail
+  install:
+    - rm -rf website/public || exit 0
+
+  # Build the website
+  script:
+    - cd website
+    - ../binaries/hugo
+
+  # Deploy to GitHub pages
+  deploy:
+    provider: pages
+    skip_cleanup: true
+    local_dir: website/public
+    github_token: $github_token
+    on:
+      branch: master
+</code></pre>
+
+<p>If you are using a custom domain with GitHub Pages, you should add the following line after github_token in the .travis.yml file:</p>
+
+<p><code>fqdn: example.com</code></p>
+
+<h3 id="link-repository">Link repository</h3>
+
+<p>We will be using the Legacy Services Integration, since the new GitHub Apps method does not work with travis-ci.org (only with travis-ci.com which is paid).</p>
+
+<ol>
+<li>Go to travis-ci.org</li>
+<li>Sign in using GitHub</li>
+<li>Click on your name in the top right corner</li>
+<li>Click on Sync account to make sure that Travis CI has the latest version</li>
+<li>Click on the tray x &ldquo;switch&rdquo; next to the repository that you want to automate</li>
+</ol>
+
+<h3 id="api-key">API key</h3>
+
+<p>You will need an API token from Travis CI in order to communicate with GitHub. The retrieve your token:</p>
+
+<ol>
+<li>Go to travis-ci.org</li>
+<li>Click on your name in the top right corner</li>
+<li>Click on &ldquo;Settings&rdquo;</li>
+<li>Click &ldquo;COPY TOKEN&rdquo; (you will need this in the next step, so either paste it somewhere or leave it in your clipboard)</li>
+</ol>
+
+<h2 id="linking-travis-ci-and-github">Linking Travis CI and GitHub</h2>
+
+<h3 id="add-travic-ci-service-to-github">Add Travic CI service to GitHub</h3>
+
+<ol>
+<li>Navigate to the GitHub repository that you want to deploy with Travis</li>
+<li>Click on settings (you will need to be an admin on the project)</li>
+<li>Click on Integrations &amp; services</li>
+<li>Click the Add service button</li>
+<li>Select Travis CI from the list</li>
+<li>Enter your username</li>
+<li>Paste the token that you copied in step 4 of the previous section (API key)</li>
+<li>Enter &ldquo;notify.travis-ci.org&rdquo; for the Domain. This is the domain that GitHub will notify using your token when a push is triggered</li>
+<li>Click Add service</li>
+</ol>
+
+<h3 id="add-github-token-to-travis-ci">Add GitHub token to Travis CI</h3>
+
+<ol>
+<li>Click on your profile icon in the top right corner of GitHub</li>
+<li>Click on &ldquo;Settings&rdquo;</li>
+<li>Click on Developer settings</li>
+<li>Click on Personal access tokens</li>
+<li>Click &ldquo;Generate new token&rdquo;</li>
+<li>Name the token &ldquo;travis_ci&rdquo;</li>
+<li>Check only the public_repo box in the list</li>
+<li>Copy the token and store somewhere secure. As GitHub warns, you will not be able to see it again.</li>
+<li>Navigate to travis-ci.org</li>
+<li>Click on your name in the top right corner</li>
+<li>Click on “Settings” next to the repository that you are integrating</li>
+<li>Under &ldquo;Environmental Variables&rdquo;, enter github_token for the Name and the token that you ropied in step 8 for Value. This is the <code>$github_token</code> variable that you reference in the <code>.travis.yml</code> file</li>
+</ol>
+
+<p>To test your configuration, add (or edit) a file, commit, and push to the repository. After a few seconds, you should see Travis pick up the push and compile the website. You can setup email alerts for failed builds.</p>
+
+<h2 id="forestry-io">Forestry.io</h2>
+
+<p>Now that we can easily deploy our app using Travis CI, let&rsquo;s setup content management using the Forestry.io headless CMS. Forestry.io is much easier to set up than Travis.</p>
+
+<ol>
+<li>Navigate to forestry.io and log in using your GitHub account</li>
+<li>Select Hugo from the list of static site generators</li>
+<li>Confirm which version you use</li>
+<li>Select GitHub from the list of Git repositories</li>
+<li>Select your repository</li>
+<li>In the Config Path text box, enter <code>website/config.toml</code></li>
+<li>Invite collaborators (optional)</li>
+<li>Click Import Site</li>
+</ol>
+
+<p>This will bring you directly to the content manager. You can edit content, publish and unpublish pages, and even edit the menu if properly setup.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Now, when you make a change on Forestry.io, it will automatically:</p>
+
+<ul>
+<li>Add, commit, and push the change to your GitHub repository</li>
+<li>Build and deploy with Travis CI</li>
+</ul>
+
+<p>So there it is - an automated workflow for static websites that make editing via a web GUI easy enough for any non-programmer.</p>
+
+      
+  
+</div>
+     
+          </div>
+        </div>
+        
+        <footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 hidden-xs">
+        
+        <div style="color:#666;font-size:2em;margin-top:15px;margin-bottom:0;" class="title"><span style="font-weight:600;padding-right:3px;">kevin</span>guay</div>
+        <div style="color:#666;font-size:1.1em;margin-top:5px;" class="title">software engineer</div>
+      </div>
+      <div class="col-sm-4 col-md-2">
+        <div style="color:white;font-size:6em;margin-top:0;" class="title visible-xs pull-right"><span style="font-weight:600;padding-right:3px;">m</span>p</div>
+        <div class="heading white">Find Me</div>
+        <ul class="no-bull left">
+          <li> <a href="https://github.com/kguay" target="_blank">GitHub</a></li>
+          <li> <a href="https://www.linkedin.com/in/kevincguay/" target="_blank">LinkedIn</a></li>
+          <li> <a href="https://www.researchgate.net/profile/Kevin_Guay" target="_blank">ResearchGate</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-8 col-md-6">
+        <div class="heading white">Websites</div>
+        <ul class="no-bull left">
+          <li> <a href="https://www.finewoodworkingindex.com" target="_blank">Fine Woodworking Index</a></li>
+          
+          <li> <a href="/about/resume">Resume</a></li>
+        </ul>
+      </div>
+      
+      
+    </div>
+  </div>
+</footer>
+
+        
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        
+        
+        
+        <script src="/js/color.js" type="text/javascript"></script>
+        <script src="/js/prism.js" type="text/javascript"></script>
+        
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-59ef333e58b3b003"></script>
+    </body>
+</html>
+
+
